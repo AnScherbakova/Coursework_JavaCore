@@ -1,33 +1,24 @@
+import exception.DescriptionIsNotSpecifiedException;
+import exception.RepeatabilityIsNotSelectedException;
+import exception.TitleIsNotSpecifiedException;
+
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
 
-public class AnnualTask extends Task {
-
-//    public static Map <Integer, AnnualTask> annualTasks = new HashMap<>();
-
-    public AnnualTask(String title, String description, boolean personalTask, LocalDate date) {
-        super(title, description, personalTask, date);
-
+public class Yearly extends Task {
+    public Yearly(String title, String description, String typeOfTask, LocalDate dateTask, Repeatability signRepeatability) throws RepeatabilityIsNotSelectedException, TitleIsNotSpecifiedException, DescriptionIsNotSpecifiedException {
+        super(title, description, typeOfTask, dateTask, signRepeatability);
     }
-
 
     @Override
-    public boolean relevanceTask(LocalDate date) {
-        LocalDate yesterday = LocalDate.now();
-        while (getDate().isBefore(date)) {
-            if (yesterday.equals(date)) {
+    public boolean getNextDate(LocalDate finishDate) {
+        LocalDate startDate = getDateTask();
+        while (startDate.isBefore(finishDate)) {
+            if (startDate.equals(finishDate)) {
                 return true;
             }
-            yesterday.plusYears(1);
-        } return false;
+            startDate = startDate.plusYears(1);
+        }
+        return false;
     }
-
-//    public void addAnnualTask(AnnualTask task) {
-//        annualTasks.put(task.getId(), task);
-//        System.out.println(annualTasks);
-//    }
-
-
-
 }
+
